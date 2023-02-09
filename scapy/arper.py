@@ -7,7 +7,10 @@ import sys
 import time
 
 def get_mac(targetip):
+    #destination mac address (default gateway) / running ARP func passing op and pdst
     packet = Ether(dst= 'ff:ff:ff:ff:ff:ff:ff')/ARP(op="who-has", pdst=targetip)
+    #retry 10 times and don't verbse output
+    #srp sends packets and receives answers on Layer 2
     resp, _ = srp(packet, timeout=2, retry=10, verbse=False)
     for _, r in resp:
         return r[Ether].src
